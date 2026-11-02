@@ -38,7 +38,8 @@
       "Shell(2026-11-13,2026-11-17,true:*)",
       "Shell(node --check ecuti/content.js)",
       "Shell(node --check apicuti/popup.js)",
-      "Shell(node --check ekinerja/background.js)"
+      "Shell(node --check ekinerja/background.js)",
+      "powershell"
     ],
     "deny": [],
     "defaultMode": "default"
