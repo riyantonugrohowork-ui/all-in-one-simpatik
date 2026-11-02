@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 100%;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 12px;
+            font-size: 13px;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+
+        .info {
+            margin-bottom: 12px;
+            line-height: 1.6;
+            background: #fff;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .log {
+            font-size: 11px;
+            color: #555;
+            height: 42px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            background: #edf2f7;
+            padding: 4px 8px;
+            border-radius: 4px;
+            line-height: 1.4;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 8px;
+        }
+
+        button {
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        #btn-start {
+            background-color: #2ecc71;
+            flex: 1;
+        }
+
+        #btn-pause {
+            background-color: #f1c40f;
+            color: #333;
+            flex: 1;
+        }
+
+        #btn-stop {
+            background-color: #e74c3c;
+            flex: 1;
+        }
+
+        #btn-dl {
+            background-color: #3498db;
+            width: 70%;
+        }
+
+        #btn-clear {
+            background-color: #95a5a6;
+            width: 30%;
+        }
+
+        .status-val {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">📋 SISDM Profile Deep Scraper</div>
+    <div class="info">
+        <strong>Status:</strong> <span id="status" class="status-val" style="color:#e74c3c;">IDLE</span><br>
+        <strong>Filter Kedudukan:</strong> <span style="color:#2ecc71; font-weight:bold;">Hanya Aktif</span><br>
+        <strong>Total Terambil:</strong> <span id="count">0</span> Data Pegawai
+    </div>
+    <div id="log" class="log">Siap mengekstrak data detail profil...</div>
+
+    <div class="btn-group">
+        <button id="btn-start">Mulai</button>
+        <button id="btn-pause">Jeda</button>
+        <button id="btn-stop">Stop</button>
+    </div>
+
+    <div style="display: flex; gap: 5px;">
+        <button id="btn-dl">Unduh JSON</button>
+        <button id="btn-clear">Reset</button>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

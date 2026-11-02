@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "SIMPATIK e-Kinerja Input",
+  "version": "1.0.0",
+  "description": "Bulk input aktivitas harian e-Kinerja Semarang Kota",
+  "permissions": ["storage", "tabs", "scripting"],
+  "host_permissions": ["https://e-kin.semarangkota.go.id/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "SIMPATIK e-Kinerja Input"
+  }
+}

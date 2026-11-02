@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>SIMPATIK e-Kinerja Input</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="tab-input">Input</button>
+    <button class="tab-btn" data-tab="tab-list">List <span id="list-count" class="badge">0</span></button>
+  </div>
+
+  <div id="tab-input" class="tab-content active">
+    <div class="form-group">
+      <label for="tanggal">Tanggal</label>
+      <input type="date" id="tanggal">
+    </div>
+
+    <div class="form-group">
+      <label for="butir">Butir Kegiatan</label>
+      <select id="butir"></select>
+      <small id="butir-info" class="info"></small>
+    </div>
+
+    <div class="form-group">
+      <label for="catatan">Catatan</label>
+      <textarea id="catatan" rows="2" placeholder="Catatan (opsional)"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="kuantitas">Kuantitas</label>
+      <input type="number" id="kuantitas" value="1" min="1">
+    </div>
+
+    <button id="btn-submit" class="btn-primary">Simpan &amp; Tutup Tab</button>
+    <div id="status" class="status"></div>
+  </div>
+
+  <div id="tab-list" class="tab-content">
+    <button id="btn-insert" class="btn-primary">Insert ke e-Kinerja</button>
+    <div id="insert-status" class="status"></div>
+    <div id="list-container"></div>
+    <button id="btn-clear" class="btn-danger">Hapus Semua Riwayat</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

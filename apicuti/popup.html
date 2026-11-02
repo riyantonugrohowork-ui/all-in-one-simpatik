@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kirim Surat Cuti ke API</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      width: 100%;
+      margin: 0;
+      padding: 12px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px;
+      color: #333;
+      background: #f8f9fa;
+    }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: #244d61;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 5px;
+    }
+    .hint {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .row { display: flex; gap: 6px; margin-bottom: 8px; align-items: center; }
+    .row > label { flex: 0 0 92px; font-weight: 600; font-size: 12px; }
+    .row input[type="text"],
+    .row input[type="password"],
+    .row input[type="number"] {
+      flex: 1;
+      min-width: 0;
+      padding: 5px 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 12px;
+      background: #fff;
+    }
+    .row .mini-btn {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border: none;
+      border-radius: 4px;
+      background: #95a5a6;
+      color: #fff;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .checks { display: flex; gap: 12px; margin-bottom: 8px; font-size: 12px; }
+    .checks label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
+    textarea {
+      width: 100%;
+      height: 140px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 12px;
+      line-height: 1.45;
+      resize: vertical;
+      background: #fff;
+      color: #333;
+    }
+    .btn-group { display: flex; gap: 6px; margin-top: 8px; }
+    button.action {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+      color: #fff;
+    }
+    .btn-primary { background: #00a65a; }
+    .btn-primary:hover { background: #008d4c; }
+    .btn-primary:disabled { background: #95a5a6; cursor: not-allowed; }
+    .btn-secondary { background: #5689c0; }
+    .btn-secondary:hover { background: #244d61; }
+    .btn-info { background: #00c0ef; }
+    .btn-info:hover { background: #00a7d0; }
+    .status { font-size: 11px; color: #666; margin-top: 8px; min-height: 14px; line-height: 1.5; }
+    .status.ok { color: #00a65a; }
+    .status.err { color: #dd4b39; }
+    #hasilWrap { display: none; margin-top: 8px; }
+    #hasilHead {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    #hasilHead b { font-size: 12px; color: #244d61; }
+    #btnSalinTabel {
+      padding: 4px 10px;
+      border: none;
+      border-radius: 4px;
+      background: #00a65a;
+      color: #fff;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #hasilBox {
+      padding: 0;
+      border: 1px solid #d2d6de;
+      border-radius: 4px;
+      background: #fff;
+      font-size: 11px;
+      max-height: 260px;
+      overflow: auto;
+    }
+    #hasilBox table {
+      border-collapse: collapse;
+      width: 100%;
+      white-space: nowrap;
+    }
+    #hasilBox th, #hasilBox td {
+      border: 1px solid #d2d6de;
+      padding: 4px 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+    #hasilBox thead th {
+      background: #244d61;
+      color: #fff;
+      position: sticky;
+      top: 0;
+    }
+    #hasilBox td.wrap { white-space: normal; min-width: 160px; }
+    #hasilBox tr.duplikat td { background: #f9e8e8; color: #999; }
+    #hasilBox .sub {
+      padding: 6px 8px;
+      font-size: 11px;
+      line-height: 1.5;
+      border-top: 1px solid #d2d6de;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <h3>&#128228; Kirim Cuti ke API</h3>
+  <div class="hint">
+    Centang pengajuan di tabel <b>e-cuti.semarangkota.go.id</b>, lalu klik Ambil Data. Data yang sama seperti tab E-Cuti dikirim ke API generator surat cuti.
+  </div>
+
+  <div class="row">
+    <label for="apiKey">API Key</label>
+    <input type="password" id="apiKey" placeholder="dpmk_..." autocomplete="off">
+    <button class="mini-btn" id="btnShowKey" title="Tampilkan/sembunyikan kunci">&#128065;</button>
+  </div>
+  <div class="row">
+    <label for="baseUrl">Base URL</label>
+    <input type="text" id="baseUrl" autocomplete="off">
+  </div>
+  <div class="row">
+    <label for="kode">Kode</label>
+    <input type="text" id="kode" autocomplete="off">
+  </div>
+  <div class="row">
+    <label for="nomorAwal">Nomor awal</label>
+    <input type="number" id="nomorAwal" placeholder="kosong = otomatis" min="1">
+  </div>
+  <div class="row">
+    <label for="tahun">Tahun</label>
+    <input type="text" id="tahun" placeholder="kosong = bawaan server">
+  </div>
+  <div class="row">
+    <label for="sumberLabel">Sumber</label>
+    <input type="text" id="sumberLabel" autocomplete="off">
+  </div>
+  <div class="checks">
+    <label><input type="checkbox" id="cekRiwayat"> Cek riwayat (tandai duplikat)</label>
+    <label><input type="checkbox" id="abaikanGate"> Abaikan gate impor</label>
+  </div>
+
+  <textarea id="teksCuti" placeholder="Klik Ambil Data untuk membaca centang dari halaman..."></textarea>
+
+  <div class="btn-group">
+    <button id="btnAmbil" class="action btn-secondary">Ambil Data</button>
+    <button id="btnBerikutnya" class="action btn-info">Cek Nomor</button>
+    <button id="btnKirim" class="action btn-primary">Kirim ke API</button>
+  </div>
+  <div class="btn-group" id="isiWebGroup" style="display:none">
+    <button id="btnIsiWeb" class="action btn-info">Isi ke Web</button>
+  </div>
+  <div id="statusMsg" class="status"></div>
+  <div id="hasilWrap">
+    <div id="hasilHead">
+      <b>Hasil</b>
+      <button id="btnSalinTabel">Salin Tabel</button>
+    </div>
+    <div id="hasilBox"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

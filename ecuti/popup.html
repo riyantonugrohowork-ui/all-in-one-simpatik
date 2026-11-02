@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>E-Cuti Konsep Generator</title>
+  <style>
+    body {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 15px;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f8f9fa;
+    }
+    h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 15px;
+      color: #244d61;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      box-sizing: border-box;
+      font-family: monospace;
+      font-size: 12px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      resize: vertical;
+      line-height: 1.4;
+      background-color: #ffffff;
+      color: #333;
+    }
+    .btn-group {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+    }
+    button {
+      flex: 1;
+      padding: 9px;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn-primary {
+      background-color: #00a65a;
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: #008d4c;
+    }
+    .btn-secondary {
+      background-color: #5689c0;
+      color: white;
+    }
+    .btn-secondary:hover {
+      background-color: #244d61;
+    }
+    .status {
+      font-size: 11px;
+      color: #666;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h3>📝 Konsep Surat Cuti</h3>
+  <textarea id="resultText" readonly placeholder="Membaca data centang dari halaman..."></textarea>
+  <div class="btn-group">
+    <button id="btnGenerate" class="btn-secondary">🔄 Refresh Data</button>
+    <button id="btnCopy" class="btn-primary">📋 Salin Teks</button>
+  </div>
+  <div id="statusMsg" class="status"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

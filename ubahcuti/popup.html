@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Permintaan Ubah Status Cuti</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      width: 100%;
+      margin: 0;
+      padding: 12px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px;
+      color: #333;
+      background: #f8f9fa;
+    }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: #244d61;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 5px;
+    }
+    .hint {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .row { display: flex; gap: 6px; margin-bottom: 8px; align-items: center; }
+    .row > label { flex: 0 0 86px; font-weight: 600; font-size: 12px; }
+    select {
+      flex: 1;
+      min-width: 0;
+      padding: 5px 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 12px;
+      background: #fff;
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 12px;
+      line-height: 1.45;
+      resize: vertical;
+      background: #fff;
+      color: #333;
+    }
+    .btn-group { display: flex; gap: 6px; margin-top: 8px; }
+    button {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+      color: #fff;
+    }
+    .btn-primary { background: #00a65a; }
+    .btn-primary:hover { background: #008d4c; }
+    .btn-secondary { background: #5689c0; }
+    .btn-secondary:hover { background: #244d61; }
+    .status { font-size: 11px; color: #666; margin-top: 8px; min-height: 14px; }
+  </style>
+</head>
+<body>
+  <h3>Permintaan Ubah Status Cuti</h3>
+  <div class="hint">
+    Centang pengajuan di tabel <b>e-cuti.semarangkota.go.id</b>, lalu klik Refresh Data. Tiap baris centang jadi satu blok teks otomatis.
+  </div>
+
+  <div class="row">
+    <label for="statusAsn">Status ASN</label>
+    <select id="statusAsn">
+      <option value="PPPK">PPPK</option>
+      <option value="PNS">PNS</option>
+    </select>
+  </div>
+
+  <textarea id="resultText" readonly placeholder="Membaca data centang dari halaman..."></textarea>
+
+  <div class="btn-group">
+    <button id="btnGenerate" class="btn-secondary">Refresh Data</button>
+    <button id="btnCopy" class="btn-primary">Salin Teks</button>
+  </div>
+  <div id="statusMsg" class="status"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

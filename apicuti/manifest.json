@@ -1,0 +1,17 @@
+{
+    "manifest_version": 3,
+    "name": "API Generator Surat Cuti",
+    "version": "1.0",
+    "description": "Kirim data centang E-Cuti ke API generator surat cuti (tersimpan di riwayat).",
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "storage"
+    ],
+    "host_permissions": [
+        "https://kepegawaian.it-dpmptsp.my.id/*"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    }
+}

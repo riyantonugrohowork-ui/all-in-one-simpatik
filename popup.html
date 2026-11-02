@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <title>SIMPATIK Tools</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f2f5;
+        }
+
+        .tabs {
+            display: flex;
+            background: #2c3e50;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 4px;
+            border: none;
+            background: transparent;
+            color: #b8c7d1;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn:hover { color: #fff; }
+
+        .tab-btn.active {
+            color: #fff;
+            border-bottom-color: #3498db;
+            background: #34495e;
+        }
+
+        .frames { position: relative; }
+
+        iframe {
+            display: none;
+            width: 100%;
+            border: none;
+            background: #fff;
+            vertical-align: top;
+        }
+
+        iframe.active { display: block; }
+    </style>
+</head>
+
+<body>
+    <nav class="tabs">
+        <button class="tab-btn active" data-tab="sisdm">SISDM</button>
+        <button class="tab-btn" data-tab="ecuti">E-Cuti</button>
+        <button class="tab-btn" data-tab="apicuti">API Cuti</button>
+        <button class="tab-btn" data-tab="ubahcuti">Ubah Cuti</button>
+        <button class="tab-btn" data-tab="absen">Absen</button>
+        <button class="tab-btn" data-tab="ekinerja">e-Kinerja</button>
+        <button class="tab-btn" data-tab="myasn">MYASN</button>
+    </nav>
+
+    <div class="frames">
+        <iframe data-src="sisdm/popup.html" data-w="340" class="active"></iframe>
+        <iframe data-src="ecuti/popup.html" data-w="432"></iframe>
+        <iframe data-src="apicuti/popup.html" data-w="440"></iframe>
+        <iframe data-src="ubahcuti/popup.html" data-w="412"></iframe>
+        <iframe data-src="absen/popup.html" data-w="348"></iframe>
+        <iframe data-src="ekinerja/popup.html" data-w="412"></iframe>
+        <iframe data-src="myasn/popup.html" data-w="428"></iframe>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

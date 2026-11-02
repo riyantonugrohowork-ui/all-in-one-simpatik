@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Rekap Absen Semarang - Auto Download",
+  "version": "1.0.0",
+  "description": "Auto download rekap bulanan ASN per pegawai di absen.semarangkota.go.id (klik Rekap -> Cetak -> ulangi untuk semua pegawai & halaman).",
+  "permissions": ["storage", "activeTab"],
+  "host_permissions": ["https://absen.semarangkota.go.id/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Rekap Downloader"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://absen.semarangkota.go.id/presensi/rekap-bulanan/asn/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

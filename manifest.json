@@ -1,0 +1,52 @@
+{
+    "manifest_version": 3,
+    "name": "SIMPATIK Tools All-in-One",
+    "version": "3.0",
+    "description": "Kumpulan tools SIMPATIK: scraper SISDM, E-Cuti konsep surat, kirim cuti ke API, rekap absen, input e-Kinerja, dan MYASN bukti dukung.",
+    "permissions": [
+        "storage",
+        "activeTab",
+        "scripting",
+        "tabs"
+    ],
+    "host_permissions": [
+        "https://sisdm.semarangkota.go.id/*",
+        "https://absen.semarangkota.go.id/*",
+        "https://e-kin.semarangkota.go.id/*",
+        "https://kepegawaian.it-dpmptsp.my.id/*"
+    ],
+    "background": {
+        "service_worker": "ekinerja/background.js"
+    },
+    "action": {
+        "default_popup": "popup.html",
+        "default_title": "SIMPATIK Tools"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://sisdm.semarangkota.go.id/pegawai*"
+            ],
+            "js": [
+                "sisdm/content.js"
+            ]
+        },
+        {
+            "matches": [
+                "*://e-cuti.semarangkota.go.id/*"
+            ],
+            "js": [
+                "ecuti/content.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://absen.semarangkota.go.id/presensi/rekap-bulanan/asn/*"
+            ],
+            "js": [
+                "absen/content.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ]
+}

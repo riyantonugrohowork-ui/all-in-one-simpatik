@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "E-Cuti Konsep Surat Generator",
+    "version": "1.0",
+    "description": "Generate teks konsep surat otomatis dari data E-Cuti yang dicentang.",
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://e-cuti.semarangkota.go.id/*"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ]
+}
