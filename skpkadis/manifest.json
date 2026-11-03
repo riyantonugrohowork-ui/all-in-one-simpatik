@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "SKP Kadis - Rencana Aksi",
+  "version": "1.0.0",
+  "description": "Rencana Hasil Kerja Kepala Dinas beserta input Rencana Aksi dan Target.",
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "SKP Kadis Rencana Aksi"
+  }
+}

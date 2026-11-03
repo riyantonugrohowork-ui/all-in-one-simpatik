@@ -14,6 +14,7 @@
 
         .tabs {
             display: flex;
+            flex-wrap: wrap;
             background: #2c3e50;
             position: sticky;
             top: 0;
@@ -21,8 +22,9 @@
         }
 
         .tab-btn {
-            flex: 1;
-            padding: 10px 4px;
+            flex: 1 1 auto;
+            min-width: 76px;
+            padding: 8px 6px;
             border: none;
             background: transparent;
             color: #b8c7d1;
@@ -64,6 +66,8 @@
         <button class="tab-btn" data-tab="absen">Absen</button>
         <button class="tab-btn" data-tab="ekinerja">e-Kinerja</button>
         <button class="tab-btn" data-tab="myasn">MYASN</button>
+        <button class="tab-btn" data-tab="skpkadis">SKP Kadis Rencana Aksi</button>
+        <button class="tab-btn" data-tab="skpdukung">SKP Kadis Data Dukung</button>
     </nav>
 
     <div class="frames">
@@ -74,6 +78,8 @@
         <iframe data-src="absen/popup.html" data-w="348"></iframe>
         <iframe data-src="ekinerja/popup.html" data-w="412"></iframe>
         <iframe data-src="myasn/popup.html" data-w="428"></iframe>
+        <iframe data-src="skpkadis/popup.html" data-w="640"></iframe>
+        <iframe data-src="skpdukung/popup.html" data-w="780"></iframe>
     </div>
 
     <script src="popup.js"></script>

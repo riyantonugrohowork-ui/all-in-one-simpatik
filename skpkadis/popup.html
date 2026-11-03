@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>SKP Kadis Rencana Aksi</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      width: 100%;
+      margin: 0;
+      padding: 12px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px;
+      color: #333;
+      background: #f8f9fa;
+    }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: #244d61;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 5px;
+    }
+    .hint {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .table-responsive { width: 100%; overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #000;
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid #d2d6de;
+      padding: 6px 8px;
+      font-size: 12px;
+      vertical-align: top;
+      text-align: left;
+    }
+    thead th {
+      background: #244d61;
+      color: #fff;
+      text-align: center;
+      position: sticky;
+      top: 0;
+    }
+    tbody td:first-child { text-align: center; width: 42px; }
+    td.kolom-aksi { min-width: 240px; }
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #0d6efd;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .indikator { margin: 4px 0 0; padding-left: 18px; }
+    .indikator li { margin-bottom: 2px; }
+    .target-tahunan { color: #555; font-size: 11px; }
+    button {
+      border: none;
+      border-radius: 4px;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      color: #fff;
+    }
+    .btn-tambah {
+      padding: 3px 8px;
+      background: #198754;
+      font-size: 11px;
+    }
+    .btn-tambah:hover { background: #146c43; }
+    .btn-edit { padding: 3px 8px; background: #ffc107; color: #000; font-size: 11px; }
+    .btn-edit:hover { background: #d9a405; }
+    .btn-hapus { padding: 3px 8px; background: #dc3545; font-size: 11px; }
+    .btn-hapus:hover { background: #b02a37; }
+    .btn-secondary { padding: 6px 12px; background: #6c757d; font-size: 12px; }
+    .btn-secondary:hover { background: #5c636a; }
+    .btn-primary { padding: 6px 12px; background: #0d6efd; font-size: 12px; }
+    .btn-primary:hover { background: #0b5ed7; }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .btn-web { padding: 6px 10px; background: #0dcaf0; color: #08313a; font-size: 12px; }
+    .btn-web:hover { background: #0aa2c0; color: #fff; }
+    .btn-web:disabled { background: #adb5bd; color: #eee; cursor: not-allowed; }
+    .chk { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #444; cursor: pointer; }
+    .btn-row-web {
+      padding: 3px 8px;
+      background: #0dcaf0;
+      color: #08313a;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+    .btn-row-web:hover { background: #0aa2c0; color: #fff; }
+    .btn-row-web:disabled { background: #ced4da; color: #888; cursor: not-allowed; }
+    .aksi-list .buttons button:disabled { opacity: .6; cursor: not-allowed; }
+    .aksi-list { margin: 4px 0 0; padding-left: 18px; }
+    .aksi-list li { margin-bottom: 4px; }
+    .aksi-list .buttons { display: flex; gap: 4px; margin-top: 3px; }
+    .aksi-list .kosong { color: #888; font-style: italic; }
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, .5);
+      z-index: 50;
+      padding: 16px;
+    }
+    .modal-overlay.show { display: block; }
+    .modal-content {
+      background: #fff;
+      border-radius: 6px;
+      max-width: 420px;
+      margin: 0 auto;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, .3);
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-bottom: 1px solid #dee2e6;
+    }
+    .modal-title { margin: 0; font-size: 14px; color: #244d61; }
+    .btn-close {
+      background: transparent;
+      color: #666;
+      font-size: 16px;
+      line-height: 1;
+      padding: 2px 6px;
+    }
+    .modal-body { padding: 12px; }
+    .form-group { margin-bottom: 10px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 3px; }
+    .form-control {
+      width: 100%;
+      padding: 5px 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 12px;
+      background: #fff;
+      color: #333;
+    }
+    .modal-error { color: #dd4b39; font-size: 11px; min-height: 14px; }
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      padding: 10px 12px;
+      border-top: 1px solid #dee2e6;
+    }
+    .status { font-size: 11px; color: #666; margin-top: 8px; min-height: 14px; }
+  </style>
+</head>
+<body>
+  <h3>SKP Kadis Rencana Aksi</h3>
+  <div class="hint">
+    Daftar Rencana Hasil Kerja Kepala Dinas. Klik <b>Tambah</b> untuk mengisi Rencana Aksi dan Target. Buka halaman SKP Kadis di tab aktif, lalu <b>Isi Semua ke Web</b> untuk klik Tambah + input + simpan otomatis.
+  </div>
+
+  <div class="toolbar">
+    <button type="button" id="btnIsiSemua" class="btn-web">Isi Semua ke Web</button>
+    <label class="chk"><input type="checkbox" id="chkOverwrite"> Timpa aksi lama (klik Edit di web)</label>
+  </div>
+
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>NO.</th>
+          <th>RENCANA HASIL KERJA</th>
+          <th>RENCANA AKSI</th>
+        </tr>
+      </thead>
+      <tbody id="tabelBody"></tbody>
+    </table>
+  </div>
+
+  <div id="statusMsg" class="status"></div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Tambah Rencana Aksi</h5>
+        <button type="button" class="btn-close" id="btnCloseX" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form novalidate id="formAksi">
+          <div class="form-group">
+            <label>Rencana Aksi</label>
+            <input class="form-control" maxlength="255" name="deskripsi" id="inputDeskripsi" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label>Target</label>
+            <input class="form-control" maxlength="255" name="target" id="inputTarget" autocomplete="off">
+          </div>
+          <div class="modal-error" id="modalError"></div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="btnClose">Close</button>
+        <button type="button" class="btn-primary" id="btnOk">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

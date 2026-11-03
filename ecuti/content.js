@@ -243,7 +243,10 @@ function ambilIdForm() {
     return m ? m[1] : null;
 }
 
-// Baris yang dicentang DAN berstatus "Pemberian Nomor Surat OPD".
+// Baris yang dicentang DAN punya link "Pemberian Nomor Surat"
+// (a[href*="pengajuan_tentukan_tanggal/<id>"]). Status di kolom tabel tidak
+// dipakai karena link ini tetap muncul walau statusnya masih "Verifikasi
+// Atasan Langsung" atau status lain.
 function ambilBarisTtdOpd() {
     const trList = document.querySelectorAll('table tbody tr');
     const items = [];
@@ -251,19 +254,19 @@ function ambilBarisTtdOpd() {
     trList.forEach((tr) => {
         if (!isRowChecked(tr)) return;
 
-        const tds = tr.querySelectorAll('td');
-        if (tds.length < 8) return;
-
-        const status = tds[5] ? tds[5].innerText.trim() : '';
-        if (!/pemberian nomor surat opd/i.test(status)) return;
-
-        const checkbox = tr.querySelector('input[type="checkbox"][name="id[]"]');
-        const id = checkbox ? checkbox.value : '';
-        const labelsTd1 = tds[1].querySelectorAll('.label');
-        const nama = labelsTd1[0] ? labelsTd1[0].innerText.trim() : '';
         const link = tr.querySelector('a[href*="pengajuan_tentukan_tanggal/"]');
+        if (!link) return;
 
-        if (id && link) items.push({ id, nama, url: link.href });
+        const hrefId = (link.getAttribute('href') || '').match(/pengajuan_tentukan_tanggal\/(\d+)/);
+        const checkbox = tr.querySelector('input[type="checkbox"][name="id[]"]');
+        const id = (checkbox && checkbox.value) || (hrefId ? hrefId[1] : '');
+        if (!id) return;
+
+        const tds = tr.querySelectorAll('td');
+        const labelsTd1 = tds[1] ? tds[1].querySelectorAll('.label') : [];
+        const nama = labelsTd1[0] ? labelsTd1[0].innerText.trim() : '';
+
+        items.push({ id, nama, url: link.href });
     });
 
     return items;

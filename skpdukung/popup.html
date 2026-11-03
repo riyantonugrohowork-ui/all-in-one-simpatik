@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>SKP Kadis Data Dukung</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      width: 100%;
+      margin: 0;
+      padding: 10px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 12px;
+      color: #333;
+      background: #f8f9fa;
+    }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: #244d61;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 5px;
+    }
+    .hint {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .btn-web { padding: 6px 10px; background: #0dcaf0; color: #08313a; font-size: 12px; }
+    .btn-web:hover { background: #0aa2c0; color: #fff; }
+    .btn-web:disabled { background: #adb5bd; color: #eee; cursor: not-allowed; }
+    .btn-baca { padding: 6px 10px; background: #6f42c1; color: #fff; font-size: 12px; }
+    .btn-baca:hover { background: #59339f; }
+    .btn-baca:disabled { background: #adb5bd; cursor: not-allowed; }
+    .btn-clear { padding: 6px 10px; background: #dc3545; color: #fff; font-size: 12px; }
+    .btn-clear:hover { background: #b02a37; }
+    .btn-clear:disabled { background: #adb5bd; cursor: not-allowed; }
+    .chk { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #444; cursor: pointer; }
+    .label-global { font-size: 11px; font-weight: 600; color: #244d61; flex: 0 0 auto; }
+    .input-global {
+      flex: 1 1 auto;
+      min-width: 200px;
+      padding: 5px 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 12px;
+      background: #fff;
+      color: #333;
+    }
+    .input-global:focus { outline: none; border-color: #3498db; box-shadow: 0 0 0 2px rgba(52, 152, 219, .2); }
+    .table-responsive { width: 100%; overflow-x: auto; }
+    table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+      color: #000;
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid #d2d6de;
+      padding: 5px 6px;
+      font-size: 11px;
+      vertical-align: top;
+      text-align: left;
+    }
+    thead th {
+      background: #244d61;
+      color: #fff;
+      text-align: center;
+      position: sticky;
+      top: 0;
+    }
+    tbody td:first-child { text-align: center; width: 34px; }
+    td.kolom-bukti { min-width: 220px; }
+    td.kolom-realisasi { min-width: 180px; }
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #0d6efd;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .sub-aksi { display: block; margin-top: 3px; color: #555; font-size: 10px; line-height: 1.35; }
+    .input-inline {
+      display: block;
+      width: 100%;
+      margin-bottom: 4px;
+      padding: 4px 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 11px;
+      background: #fff;
+      color: #333;
+    }
+    .input-inline:focus { outline: none; border-color: #3498db; box-shadow: 0 0 0 2px rgba(52, 152, 219, .2); }
+    .input-inline[readonly] { background: #e9ecef; color: #555; }
+    button {
+      border: none;
+      border-radius: 4px;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      color: #fff;
+    }
+    .btn-isi { padding: 3px 8px; background: #0dcaf0; color: #08313a; font-size: 10px; }
+    .btn-isi:hover { background: #0aa2c0; color: #fff; }
+    .btn-isi:disabled { background: #adb5bd; color: #eee; cursor: not-allowed; }
+    .status { font-size: 11px; color: #666; margin-top: 8px; min-height: 14px; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <h3>SKP Kadis Data Dukung</h3>
+  <div class="hint">
+    Buka halaman SKP Kadis di tab aktif. Isi langsung kolom Bukti Dukung dan Realisasi, data tersimpan otomatis. Lalu <b>Isi Semua ke Web</b> untuk kirim ke portal, atau <b>Baca dari Web</b> untuk tarik data yang sudah ada.
+  </div>
+
+  <div class="toolbar">
+    <label class="label-global" for="inputJudulGlobal">Nama Bukti Dukung</label>
+    <input type="text" id="inputJudulGlobal" class="input-global" maxlength="255" placeholder="Contoh: Laporan Oktober 2026" autocomplete="off">
+  </div>
+
+  <div class="toolbar">
+    <button type="button" id="btnIsiSemua" class="btn-web">Isi Semua ke Web</button>
+    <button type="button" id="btnBaca" class="btn-baca">Baca dari Web</button>
+    <button type="button" id="btnBersihkan" class="btn-clear">Bersihkan</button>
+    <button type="button" id="btnBersihkanWeb" class="btn-clear">Bersihkan Web</button>
+    <label class="chk"><input type="checkbox" id="chkOverwrite"> Timpa bukti lama (klik Edit)</label>
+  </div>
+
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>NO.</th>
+          <th>RENCANA HASIL KERJA</th>
+          <th>INDIKATOR KINERJA INDIVIDU</th>
+          <th>TARGET TAHUNAN</th>
+          <th>BUKTI DUKUNG</th>
+          <th>REALISASI</th>
+        </tr>
+      </thead>
+      <tbody id="tabelBody"></tbody>
+    </table>
+  </div>
+
+  <div id="statusMsg" class="status"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

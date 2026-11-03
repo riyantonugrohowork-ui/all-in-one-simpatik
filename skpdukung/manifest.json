@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "SKP Kadis Data Dukung",
+  "version": "1.0.0",
+  "description": "Input bukti dukung dan realisasi per indikator SKP Kadis, tersimpan per baris.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "SKP Kadis Data Dukung"
+  }
+}

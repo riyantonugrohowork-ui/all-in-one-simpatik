@@ -320,13 +320,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        setStatus('Membaca baris centang berstatus "Pemberian Nomor Surat OPD"...');
+        setStatus('Membaca baris centang berlink "Pemberian Nomor Surat"...');
         kirimPesanKeHalaman({ action: 'ambilBarisTtdOpd' }, (response) => {
             if (!response) return;
 
             const baris = (response.data || []).filter((b) => b.id && b.url);
             if (!baris.length) {
-                setStatus('Tidak ada baris tercentang berstatus "Pemberian Nomor Surat OPD".', 'err');
+                setStatus('Tidak ada baris tercentang yang punya link "Pemberian Nomor Surat".', 'err');
                 return;
             }
 
