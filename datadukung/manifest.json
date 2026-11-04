@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "Rekap Data Dukung TPP ke API",
+    "version": "1.0.0",
+    "description": "Scrape tabel data pegawai tidak masuk kerja dari tpp.semarangkota.go.id/izin lalu kirim ke API data-dukung-tpp.",
+    "permissions": ["storage", "activeTab"],
+    "host_permissions": ["https://tpp.semarangkota.go.id/*"],
+    "action": {
+        "default_popup": "popup.html",
+        "default_title": "Rekap Data Dukung TPP"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://tpp.semarangkota.go.id/izin*"],
+            "js": ["content.js"],
+            "run_at": "document_idle"
+        }
+    ]
+}
+

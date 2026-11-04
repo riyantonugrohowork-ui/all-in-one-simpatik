@@ -1,0 +1,19 @@
+{
+    "manifest_version": 3,
+    "name": "Rekap Absen Bulanan ke API",
+    "version": "1.0.0",
+    "description": "Ambil rekap absen bulanan ASN per pegawai dari absen.semarangkota.go.id lalu kirim ke API rekap-absen.",
+    "permissions": ["storage", "activeTab"],
+    "host_permissions": ["https://absen.semarangkota.go.id/*"],
+    "action": {
+        "default_popup": "popup.html",
+        "default_title": "Rekap Absen ke API"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://absen.semarangkota.go.id/presensi/rekap-bulanan/asn/*"],
+            "js": ["content.js"],
+            "run_at": "document_idle"
+        }
+    ]
+}

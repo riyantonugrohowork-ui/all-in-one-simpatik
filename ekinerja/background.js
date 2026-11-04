@@ -1,6 +1,7 @@
 const ADD_URL = 'https://e-kin.semarangkota.go.id/administrator/aktivitas_harian/add_new';
 const STORAGE_KEY = 'riwayat';
 const FILL_KEY = 'apicutiFill';
+const REKAP_API_FALLBACK = 'https://kepegawaian.it-dpmptsp.my.id/api/v1';
 
 let running = false;
 let isiRunning = false;
@@ -24,10 +25,106 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     sendResponse({ ok: true, started: true });
     return;
   }
+
+  if (msg.action === 'kirimRekapAbsen') {
+    kirimRekapAbsen(msg.payload).then(sendResponse);
+    return true;
+  }
+
+  if (msg.action === 'kirimDataDukungTpp') {
+    kirimDataDukungTpp(msg.payload).then(sendResponse);
+    return true;
+  }
 });
+
+async function kirimRekapAbsen(payload) {
+  try {
+    const res = await chrome.storage.local.get('apiConfig');
+    const cfg = res.apiConfig || {};
+    const baseUrl = (cfg.baseUrl || REKAP_API_FALLBACK).replace(/\/+$/, '');
+    const apiKey = (cfg.apiKey || '').trim();
+
+    if (!apiKey) {
+      return { ok: false, error: 'API Key belum diisi di tab Setting.' };
+    }
+
+    const resp = await fetch(baseUrl + '/rekap-absen', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key': apiKey
+      },
+      body: JSON.stringify(payload)
+    });
+
+    let body = null;
+    try {
+      body = await resp.json();
+    } catch (e) {
+      body = null;
+    }
+
+    if (!resp.ok) {
+      const pesan = body && (body.error || body.message) ? (body.error || body.message) : resp.statusText;
+      return { ok: false, error: 'HTTP ' + resp.status + ': ' + pesan };
+    }
+
+    const item = body && Array.isArray(body.data) ? body.data[0] : null;
+    return {
+      ok: true,
+      id: item ? item.id : null,
+      aksi: item ? item.aksi : null
+    };
+  } catch (e) {
+    return { ok: false, error: e.message };
+  }
+}
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
+}
+
+async function kirimDataDukungTpp(payload) {
+  try {
+    const res = await chrome.storage.local.get('apiConfig');
+    const cfg = res.apiConfig || {};
+    const baseUrl = (cfg.baseUrl || REKAP_API_FALLBACK).replace(/\/+$/, '');
+    const apiKey = (cfg.apiKey || '').trim();
+
+    if (!apiKey) {
+      return { ok: false, error: 'API Key belum diisi di tab Setting.' };
+    }
+
+    const resp = await fetch(baseUrl + '/data-dukung-tpp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key': apiKey
+      },
+      body: JSON.stringify(payload)
+    });
+
+    let body = null;
+    try {
+      body = await resp.json();
+    } catch (e) {
+      body = null;
+    }
+
+    if (!resp.ok) {
+      const pesan = body && (body.error || body.message) ? (body.error || body.message) : resp.statusText;
+      return { ok: false, error: 'HTTP ' + resp.status + ': ' + pesan };
+    }
+
+    return {
+      ok: true,
+      jumlah: body ? body.jumlah : 0,
+      dibuat: body ? body.dibuat : 0,
+      diperbarui: body ? body.diperbarui : 0,
+    };
+  } catch (e) {
+    return { ok: false, error: e.message };
+  }
 }
 
 function waitTabLoaded(tabId, timeout = 20000) {

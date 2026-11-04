@@ -13,7 +13,12 @@
         "https://sisdm.semarangkota.go.id/*",
         "https://absen.semarangkota.go.id/*",
         "https://e-kin.semarangkota.go.id/*",
-        "https://kepegawaian.it-dpmptsp.my.id/*"
+        "https://kepegawaian.it-dpmptsp.my.id/*",
+        "https://tpp.semarangkota.go.id/*"
+    ],
+    "optional_host_permissions": [
+        "https://*/*",
+        "http://*/*"
     ],
     "background": {
         "service_worker": "ekinerja/background.js"
@@ -45,6 +50,24 @@
             ],
             "js": [
                 "absen/content.js"
+            ],
+            "run_at": "document_idle"
+        },
+        {
+            "matches": [
+                "https://absen.semarangkota.go.id/presensi/rekap-bulanan/asn/*"
+            ],
+            "js": [
+                "rekapabsen/content.js"
+            ],
+            "run_at": "document_idle"
+        },
+        {
+            "matches": [
+                "https://tpp.semarangkota.go.id/izin*"
+            ],
+            "js": [
+                "datadukung/content.js"
             ],
             "run_at": "document_idle"
         }

@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const elApiKey = document.getElementById('apiKey');
-    const elBaseUrl = document.getElementById('baseUrl');
+    const elApiInfo = document.getElementById('apiInfo');
     const elKode = document.getElementById('kode');
     const elNomorAwal = document.getElementById('nomorAwal');
     const elTahun = document.getElementById('tahun');
@@ -20,14 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnKirim = document.getElementById('btnKirim');
     const btnIsiWeb = document.getElementById('btnIsiWeb');
     const elIsiWebGroup = document.getElementById('isiWebGroup');
-    const btnShowKey = document.getElementById('btnShowKey');
 
     const DEFAULTS = {
-        baseUrl: 'https://kepegawaian.it-dpmptsp.my.id/api/v1',
         kode: '800',
         sumberLabel: 'ext-ecuti-v1'
     };
     const STORE_KEY = 'apicutiConfig';
+    const API_CONFIG_KEY = 'apiConfig';
+    const DEFAULT_BASE_URL = 'https://kepegawaian.it-dpmptsp.my.id/api/v1';
+    let apiConfig = { baseUrl: DEFAULT_BASE_URL, apiKey: '' };
 
     function setStatus(msg, cls) {
         elStatus.innerText = msg;
@@ -51,6 +51,28 @@ document.addEventListener('DOMContentLoaded', () => {
             .replace(/&/g, '&amp;').replace(/</g, '&lt;')
             .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
+
+    function terapkanApiConfig(cfg) {
+        apiConfig = {
+            baseUrl: (cfg.baseUrl || DEFAULT_BASE_URL).replace(/\/+$/, ''),
+            apiKey: cfg.apiKey || ''
+        };
+        elApiInfo.innerHTML = 'API: <b>' + esc(apiConfig.baseUrl) + '</b> &middot; ' +
+            (apiConfig.apiKey
+                ? 'API Key tersimpan'
+                : '<span style="color:#dd4b39">API Key belum diisi</span>') +
+            ' &middot; ubah di tab <b>Setting</b>.';
+    }
+
+    chrome.storage.local.get([API_CONFIG_KEY], (res) => {
+        terapkanApiConfig(res[API_CONFIG_KEY] || {});
+    });
+
+    chrome.storage.onChanged.addListener((changes, area) => {
+        if (area === 'local' && changes[API_CONFIG_KEY]) {
+            terapkanApiConfig(changes[API_CONFIG_KEY].newValue || {});
+        }
+    });
 
     // Susun kolom Pengajuan dari field yang dikembalikan API.
     // Contoh: "Cuti Tahunan 2 hari (09 - 10 November 2026) pengajuan 29-10-2026 12:53:14"
@@ -120,11 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Muat konfigurasi tersimpan (termasuk API key)
+    // Muat konfigurasi khusus tab API Cuti (API Key & Base URL ada di tab Setting)
     chrome.storage.local.get([STORE_KEY], (res) => {
         const cfg = res[STORE_KEY] || {};
-        elApiKey.value = cfg.apiKey || '';
-        elBaseUrl.value = cfg.baseUrl || DEFAULTS.baseUrl;
         elKode.value = cfg.kode || DEFAULTS.kode;
         elTahun.value = cfg.tahun || '';
         elSumber.value = cfg.sumberLabel || DEFAULTS.sumberLabel;
@@ -135,8 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function simpanConfig() {
         chrome.storage.local.set({
             [STORE_KEY]: {
-                apiKey: elApiKey.value.trim(),
-                baseUrl: elBaseUrl.value.trim() || DEFAULTS.baseUrl,
                 kode: elKode.value.trim() || DEFAULTS.kode,
                 tahun: elTahun.value.trim(),
                 sumberLabel: elSumber.value.trim() || DEFAULTS.sumberLabel,
@@ -146,19 +164,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    [elApiKey, elBaseUrl, elKode, elTahun, elSumber].forEach((el) => {
+    [elKode, elTahun, elSumber].forEach((el) => {
         el.addEventListener('change', simpanConfig);
     });
     [elCekRiwayat, elAbaikanGate].forEach((el) => {
         el.addEventListener('change', simpanConfig);
     });
 
-    btnShowKey.addEventListener('click', () => {
-        elApiKey.type = elApiKey.type === 'password' ? 'text' : 'password';
-    });
-
     function baseUrl() {
-        return (elBaseUrl.value.trim() || DEFAULTS.baseUrl).replace(/\/+$/, '');
+        return apiConfig.baseUrl;
     }
 
     function kode() {
@@ -176,13 +190,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function apiHeaders() {
         return {
             'Content-Type': 'application/json',
-            'X-API-Key': elApiKey.value.trim()
+            'X-API-Key': apiConfig.apiKey
         };
     }
 
     function cekPrasyarat() {
-        if (!elApiKey.value.trim()) {
-            setStatus('Isi API Key dahulu (minta ke admin kepegawaian).', 'err');
+        if (!apiConfig.apiKey) {
+            setStatus('API Key belum diisi. Buka tab Setting untuk mengisinya.', 'err');
             return false;
         }
         if (!elTeks.value.trim()) {
@@ -236,15 +250,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function cekNomor() {
-        if (!elApiKey.value.trim()) {
-            setStatus('Isi API Key dahulu.', 'err');
+        if (!apiConfig.apiKey) {
+            setStatus('API Key belum diisi. Buka tab Setting untuk mengisinya.', 'err');
             return;
         }
         setStatus('Menanyakan nomor awal berikutnya...');
         try {
             const res = await fetch(
                 baseUrl() + '/generator-surat-cuti/berikutnya?kode=' + encodeURIComponent(kode()),
-                { headers: { 'X-API-Key': elApiKey.value.trim() } }
+                { headers: { 'X-API-Key': apiConfig.apiKey } }
             );
             if (!res.ok) {
                 setStatus(await bacaError(res), 'err');

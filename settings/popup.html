@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Pengaturan API</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      width: 100%;
+      margin: 0;
+      padding: 12px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px;
+      color: #333;
+      background: #f8f9fa;
+    }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: #244d61;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 5px;
+    }
+    .hint {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .row { display: flex; gap: 6px; margin-bottom: 8px; align-items: center; }
+    .row > label { flex: 0 0 86px; font-weight: 600; font-size: 12px; }
+    .row input[type="text"],
+    .row input[type="password"] {
+      flex: 1;
+      min-width: 0;
+      padding: 5px 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 12px;
+      background: #fff;
+    }
+    .row .mini-btn {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border: none;
+      border-radius: 4px;
+      background: #95a5a6;
+      color: #fff;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-group { display: flex; gap: 6px; margin-top: 8px; }
+    button.action {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+      color: #fff;
+    }
+    .btn-primary { background: #00a65a; }
+    .btn-primary:hover { background: #008d4c; }
+    .status { font-size: 11px; color: #666; margin-top: 8px; min-height: 14px; line-height: 1.5; }
+    .status.ok { color: #00a65a; }
+    .status.err { color: #dd4b39; }
+  </style>
+</head>
+<body>
+  <h3>&#9881;&#65039; Pengaturan API</h3>
+  <div class="hint">
+    Base URL dan API Key dipakai bersama oleh semua tab yang membutuhkan API (mis. <b>API Cuti</b>). Nilainya tersimpan di local storage ekstensi.
+  </div>
+
+  <div class="row">
+    <label for="baseUrl">Base URL</label>
+    <input type="text" id="baseUrl" autocomplete="off">
+  </div>
+  <div class="row">
+    <label for="apiKey">API Key</label>
+    <input type="password" id="apiKey" placeholder="dpmk_..." autocomplete="off">
+    <button class="mini-btn" id="btnShowKey" title="Tampilkan/sembunyikan kunci">&#128065;</button>
+  </div>
+
+  <div class="btn-group">
+    <button id="btnSimpan" class="action btn-primary">Simpan</button>
+  </div>
+  <div id="statusMsg" class="status"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -30,7 +30,6 @@
     .row { display: flex; gap: 6px; margin-bottom: 8px; align-items: center; }
     .row > label { flex: 0 0 92px; font-weight: 600; font-size: 12px; }
     .row input[type="text"],
-    .row input[type="password"],
     .row input[type="number"] {
       flex: 1;
       min-width: 0;
@@ -40,17 +39,6 @@
       font-family: inherit;
       font-size: 12px;
       background: #fff;
-    }
-    .row .mini-btn {
-      flex: 0 0 auto;
-      padding: 5px 8px;
-      border: none;
-      border-radius: 4px;
-      background: #95a5a6;
-      color: #fff;
-      font-size: 11px;
-      font-weight: bold;
-      cursor: pointer;
     }
     .checks { display: flex; gap: 12px; margin-bottom: 8px; font-size: 12px; }
     .checks label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
@@ -150,15 +138,7 @@
     Centang pengajuan di tabel <b>e-cuti.semarangkota.go.id</b>, lalu klik Ambil Data. Data yang sama seperti tab E-Cuti dikirim ke API generator surat cuti.
   </div>
 
-  <div class="row">
-    <label for="apiKey">API Key</label>
-    <input type="password" id="apiKey" placeholder="dpmk_..." autocomplete="off">
-    <button class="mini-btn" id="btnShowKey" title="Tampilkan/sembunyikan kunci">&#128065;</button>
-  </div>
-  <div class="row">
-    <label for="baseUrl">Base URL</label>
-    <input type="text" id="baseUrl" autocomplete="off">
-  </div>
+  <div class="hint" id="apiInfo"></div>
   <div class="row">
     <label for="kode">Kode</label>
     <input type="text" id="kode" autocomplete="off">
